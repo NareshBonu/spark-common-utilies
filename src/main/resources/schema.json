@@ -1,0 +1,9 @@
+{"type":"struct",
+  "fields":
+    [
+      {"name":"ID","type":"integer","nullable":true,"metadata":{}},
+      {"name":"Name","type":"string","nullable":true,"metadata":{}},
+      {"name":"City","type":"string","nullable":true,"metadata":{}}
+    ]
+}
+

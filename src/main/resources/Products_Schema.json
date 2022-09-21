@@ -1,0 +1,52 @@
+[
+  {
+    "fieldPosition": 1,
+    "fieldName": "Product_ID",
+    "fieldDataType": "String",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 2,
+    "fieldName": "Product_Name",
+    "fieldDataType": "String",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 3,
+    "fieldName": "Product_Price",
+    "fieldDataType": "Integer",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 4,
+    "fieldName": "Product_Price_Currency",
+    "fieldDataType": "String",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 5,
+    "fieldName": "Product_Updated_Date",
+    "fieldDataType": "Date",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": "yyyy-MM-dd"
+  }
+]
