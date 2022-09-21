@@ -86,6 +86,12 @@
             <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
     <build>
