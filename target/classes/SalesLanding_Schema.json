@@ -1,0 +1,72 @@
+[
+  {
+    "fieldPosition": 1,
+    "fieldName": "Sale_ID",
+    "fieldDataType": "String",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 2,
+    "fieldName": "Product_ID",
+    "fieldDataType": "String",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 3,
+    "fieldName": "Quantity_Sold",
+    "fieldDataType": "Integer",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 4,
+    "fieldName": "Vendor_ID",
+    "fieldDataType": "String",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 5,
+    "fieldName": "Sale_Date",
+    "fieldDataType": "Date",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": "yyyy-MM-dd"
+  },
+  {
+    "fieldPosition": 6,
+    "fieldName": "Sale_Amount",
+    "fieldDataType": "Double",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  },
+  {
+    "fieldPosition": 7,
+    "fieldName": "Sale_Currency",
+    "fieldDataType": "String",
+    "fieldLength": null,
+    "fieldNullability": true,
+    "fieldPrecision": null,
+    "fieldScale": null,
+    "fieldDateFormat": null
+  }
+]

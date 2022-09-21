@@ -1,0 +1,5 @@
+inputPath =C:\\SPARK\\GK CodeLabs\\GKCodelabs-BigData-Batch-Processing-Course-Spark-Scala\\Data\\Inputs\\Sales_Landing\\SalesDump_
+inputPath1 =C:\\SPARK\\GK CodeLabs\\GKCodelabs-BigData-Batch-Processing-Course-Spark-Scala\\Data\\Inputs\\Sales_Landing\\SalesDump_18072020\\SalesDump.dat
+outputPath=C:\\SPARK\\GK CodeLabs\\GKCodelabs-BigData-Batch-Processing-Course-Spark-Scala\\Data\\Outputs\\
+ProductPath=C:\\SPARK\\GK CodeLabs\\GKCodelabs-BigData-Batch-Processing-Course-Spark-Scala\\Data\\Inputs\\Products\\GKProductList.dat
+SaleAmountEnrichmentOutputPath=C:\\SPARK\\GK CodeLabs\\GKCodelabs-BigData-Batch-Processing-Course-Spark-Scala\\Data\\Outputs\\Enriched\\SaleAmountEnrichment\\
