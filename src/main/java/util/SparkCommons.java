@@ -41,9 +41,9 @@ public class SparkCommons {
     public static SparkSession createSparkSession(String appName,String master){
         Logger.getLogger("org.apache").setLevel(Level.OFF);
         SparkSession sparkSession = SparkSession.builder()
-                .appName("GKCStorePipeline")
+                .appName("spark-common-utilies")
                 .master("local[*]")
-                .enableHiveSupport()
+               // .enableHiveSupport()
                 .getOrCreate();
         logger.info("Spark Session created successfully.");
 

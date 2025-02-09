@@ -8,6 +8,8 @@ import org.apache.spark.sql.streaming.OutputMode;
 import org.apache.spark.sql.streaming.StreamingQueryException;
 import org.apache.spark.sql.streaming.Trigger;
 
+import java.util.concurrent.TimeoutException;
+
 @Slf4j
 public class ConsumeFromKafkaTopic {
 
@@ -17,7 +19,7 @@ public class ConsumeFromKafkaTopic {
     private static SparkSession sparkSession;
     private static Dataset<Row> inputDataset;
 
-    public static void main(String args[]) throws StreamingQueryException {
+    public static void main(String args[]) throws StreamingQueryException, TimeoutException {
 
         sparkSession = SparkSession.builder().appName("UDF Example").master("local[*]").getOrCreate();
         inputDataset = sparkSession.readStream()

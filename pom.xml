@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.projects.naresh.</groupId>
-    <artifactId>spark-common-utilies-naresh</artifactId>
+    <artifactId>spark-common-utilies</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>spark-common-utilies-naresh</name>
+    <name>spark-common-utilies</name>
 
     <dependencies>
 
