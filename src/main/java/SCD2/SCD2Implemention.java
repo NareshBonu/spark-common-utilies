@@ -26,15 +26,19 @@ public class SCD2Implemention {
         Column join_Condition = masterDF.col("ID").equalTo(deltaDF.col("ID")) ;
         Dataset<Row> joinedDF = deltaDF.join(masterDF, join_Condition, "left_outer");
         joinedDF.show();
-        //Filter for New Record
 
+        //Filter for New Record
         Dataset<Row> new_records_DF  = joinedDF.filter(masterDF.col("ID").isNull());
         new_records_DF = new_records_DF.select(deltaDF.col("ID"),deltaDF.col("NAME"),deltaDF.col("CITY"));
+
         //Filter for Updated Record
         Dataset<Row> updated_records_DF = joinedDF.filter(masterDF.col("CITY").notEqual(deltaDF.col("CITY")));
         updated_records_DF = updated_records_DF.select(deltaDF.col("ID"),deltaDF.col("NAME"),deltaDF.col("CITY"));
 
+        //Union NEW and Updated Records
         Dataset<Row> new_and_updated_recordsDF = new_records_DF.union(updated_records_DF) ;
+
+        //Add Audit Columns to New and Updated records
         new_and_updated_recordsDF =  new_and_updated_recordsDF
                 .withColumn("EFF_DT", functions.date_format(functions.current_date(),"yyyy-MM-dd"))
                 .withColumn("END_DT", functions.lit("9999-12-31"))
@@ -42,13 +46,18 @@ public class SCD2Implemention {
         log.info("New and Updated Records---------------------");
         new_and_updated_recordsDF.show();
 
+
+
         //Mark old records as inactive
-        Dataset<Row>    inactive_recordsDF = masterDF.join(new_and_updated_recordsDF.select("id").distinct(), "ID", "inner");
+        Dataset<Row>    inactive_recordsDF = masterDF.join(new_and_updated_recordsDF.select("id"), "ID", "inner");
         inactive_recordsDF =inactive_recordsDF
                 .withColumn("END_DT", functions.date_format(functions.current_date(),"yyyy-MM-dd"))
                 .withColumn("ACT_IN", functions.lit("N"));
         log.info("INACTIVE RECORDS---------------------");
         inactive_recordsDF.show();
+
+        //Remove old record from Master DF which is going to updated
+        masterDF = masterDF.join(updated_records_DF,"ID","leftanti") ;
 
         // Master DF + New Records + Updated Records + Inactive Records
         Dataset<Row>  all_records_DF = masterDF.union(new_and_updated_recordsDF).union(inactive_recordsDF);
@@ -58,12 +67,12 @@ public class SCD2Implemention {
         all_records_DF.show();
 
         //Remove old updated record from MASTER DF
-        WindowSpec window = Window.partitionBy("ID","ACT_IN").orderBy(all_records_DF.col("EFF_DT").desc()) ;
+       /* WindowSpec window = Window.partitionBy("ID","ACT_IN").orderBy(all_records_DF.col("EFF_DT").desc()) ;
 
         Dataset<Row> finalDF = all_records_DF.withColumn("row_num", functions.row_number().over(window))
                 .filter(new Column("row_num").equalTo(1)).drop("row_num") ;
 
-        finalDF.show();
+        finalDF.show();*/
 
 
     }

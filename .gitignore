@@ -1,0 +1,9 @@
+/target/classes/cdc/CDCWithSpark.class
+/target/classes/impl/SparkUDFExample.class
+/target/classes/impl/Test.class
+/target/classes/model/FieldMetadata.class
+/target/classes/SCD2/SCD2Implemention.class
+/target/classes/sparkstreaming/ConsumeFromKafkaTopic.class
+/target/classes/util/SparkCommons.class
+/.idea/
+/target/
