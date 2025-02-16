@@ -60,57 +60,59 @@ public class SCD2Implementation_Multiple_KeyColumns {
         System.out.println("joined");
         joined.show();
 
-        // Identify new and changed records
+        // Identify changed records
         Column changeCondition = Arrays.stream(deltaTable.schema().fieldNames())
                 .filter(col -> !keyColumns.contains(col) && !ignoreColumns.contains(col))
                 .map(col -> deltaTable.col(col).notEqual(masterTable.col(col)))
-                .reduce(Column::or).orElse(functions.lit(false));
-
-        Column changeCondition1 = Arrays.stream(deltaTable.schema().fieldNames())
-                .filter(col -> !keyColumns.contains(col) && !ignoreColumns.contains(col))
-                .map(col -> deltaTable.col(col).equalTo(masterTable.col(col)))
                 .reduce(Column::or).orElse(functions.lit(false));
 
         Dataset<Row> changedRecords = joined.filter(changeCondition);
         System.out.println("changedRecords");
         changedRecords.show();
 
+        //Select updated records from delta file
         Dataset<Row> updatedActive = changedRecords.select(deltaTable.col("*")) ;
         System.out.println("updatedActive");
         updatedActive.show();
 
+        //Select updated records which need to be set inactive from master file
         System.out.println("expiredRecords");
         Dataset<Row> expiredRecords  = changedRecords.select(masterTable.col("*")) ;
         expiredRecords= expiredRecords.withColumn("end_date",functions.current_date())
                         .withColumn("status",functions.lit("InActive")) ;
         expiredRecords.show();
 
+        //New Records
         Column changeCondition3 = Arrays.stream(masterTable.schema().fieldNames())
                 .filter(col -> keyColumns.contains(col) )
                 .map(col -> masterTable.col(col).isNull())
                 .reduce(Column::or).orElse(functions.lit(false));
 
         Dataset<Row> newRecords = joined.filter(changeCondition3) ;     //(masterTable.col("ID").isNull().and(masterTable.col("name").isNull()));
-        newRecords = newRecords.select(deltaTable.col("id"), deltaTable.col("name"), deltaTable.col("category"));
+        newRecords = newRecords.select(deltaTable.col("*"));
         //Dataset<Row> newRecords = deltaTable.except(masterTable.selectExpr("id", "name", "category"));
         System.out.println("newRecords");
         newRecords.show();
 
-        // Set validity dates and status
-
+        // Update start_date as current date, end_date as 9999-12-31 and status as Active for new and updated records
         Dataset<Row> activeNewRecords = updatedActive.union(newRecords) // New + Updated wth Columns
                 .withColumn("start_date", functions.current_date())
                 .withColumn("end_date", functions.lit("9999-12-31"))
                 .withColumn("status", functions.lit("Active"));
 
         //unchanged records
+        Column changeCondition1 = Arrays.stream(deltaTable.schema().fieldNames())
+                .filter(col -> !keyColumns.contains(col) && !ignoreColumns.contains(col))
+                .map(col -> deltaTable.col(col).equalTo(masterTable.col(col)))
+                .reduce(Column::or).orElse(functions.lit(false));
+
         Dataset<Row> unchangedRecords = joined.filter(changeCondition1);
-        unchangedRecords = unchangedRecords.select(masterTable.col("id"), masterTable.col("name"), masterTable.col("category"), masterTable.col("start_date"), masterTable.col("end_date"), masterTable.col("status"));
+        unchangedRecords = unchangedRecords.select(masterTable.col("*"));
         System.out.println("unchangedRecords");
         unchangedRecords.show();
 
 
-        // Final Dimension Table (Union of old, updated, and new records)
+        // Final Dimension Table (Union of old, updated, and new records and unchanged )
         Dataset<Row> finalDimTable = unchangedRecords.union(activeNewRecords).union(expiredRecords);
 
 
