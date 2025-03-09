@@ -83,12 +83,12 @@ public class SCD2Implementation_Multiple_KeyColumns {
         expiredRecords.show();
 
         //New Records
-        Column changeCondition3 = Arrays.stream(masterTable.schema().fieldNames())
+        Column newRecordsCondition = Arrays.stream(masterTable.schema().fieldNames())
                 .filter(col -> keyColumns.contains(col) )
                 .map(col -> masterTable.col(col).isNull())
                 .reduce(Column::or).orElse(functions.lit(false));
 
-        Dataset<Row> newRecords = joined.filter(changeCondition3) ;     //(masterTable.col("ID").isNull().and(masterTable.col("name").isNull()));
+        Dataset<Row> newRecords = joined.filter(newRecordsCondition) ;     //(masterTable.col("ID").isNull().and(masterTable.col("name").isNull()));
         newRecords = newRecords.select(deltaTable.col("*"));
         //Dataset<Row> newRecords = deltaTable.except(masterTable.selectExpr("id", "name", "category"));
         System.out.println("newRecords");
@@ -101,12 +101,12 @@ public class SCD2Implementation_Multiple_KeyColumns {
                 .withColumn("status", functions.lit("Active"));
 
         //unchanged records
-        Column changeCondition1 = Arrays.stream(deltaTable.schema().fieldNames())
+        Column unChangeRecordsCondition = Arrays.stream(deltaTable.schema().fieldNames())
                 .filter(col -> !keyColumns.contains(col) && !ignoreColumns.contains(col))
                 .map(col -> deltaTable.col(col).equalTo(masterTable.col(col)))
                 .reduce(Column::or).orElse(functions.lit(false));
 
-        Dataset<Row> unchangedRecords = joined.filter(changeCondition1);
+        Dataset<Row> unchangedRecords = joined.filter(unChangeRecordsCondition);
         unchangedRecords = unchangedRecords.select(masterTable.col("*"));
         System.out.println("unchangedRecords");
         unchangedRecords.show();
@@ -114,7 +114,6 @@ public class SCD2Implementation_Multiple_KeyColumns {
 
         // Final Dimension Table (Union of old, updated, and new records and unchanged )
         Dataset<Row> finalDimTable = unchangedRecords.union(activeNewRecords).union(expiredRecords);
-
 
         // Show results
         finalDimTable.show();
