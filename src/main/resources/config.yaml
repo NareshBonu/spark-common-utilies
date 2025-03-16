@@ -1,0 +1,8 @@
+dev:
+  bucketName: dev-bucket
+  idaUrl: dev.com
+  resourceID: 1234-dev-invokeAPI
+uat:
+  bucketName: uat-bucket
+  idaUrl: uat.com
+  resourceID: 1234-uat-invokeAPI
