@@ -23,7 +23,8 @@ public class SCD2Implementation_Multiple_KeyColumns {
         // Sample existing SCD2 table (dimension table)
         List<Row> existingData = Arrays.asList(
                 RowFactory.create(1, "A", "Category1", "2024-01-01", "9999-12-31", "Active"),
-                RowFactory.create(2, "B", "Category2", "2024-01-01", "9999-12-31", "Active")
+                RowFactory.create(2, "B", "Category2", "2024-01-01", "9999-12-31", "Active"),
+                RowFactory.create(5, "R", "Category5", "2024-01-01", "9999-12-31", "Active")
         );
         StructType schema = new StructType()
                 .add("id", "int")
@@ -37,7 +38,7 @@ public class SCD2Implementation_Multiple_KeyColumns {
         // Incoming DataFrame (new data from source)
         List<Row> incomingData = Arrays.asList(
                 RowFactory.create(1, "A", "Category1"),  // Unchanged
-                RowFactory.create(2, "B", "CategoryX"),  // Changed
+                RowFactory.create(2, "B", "Category2"),  // Changed
                 RowFactory.create(3, "C", "Category3"),   // New record
                 RowFactory.create(4, "D", "Category4")   // New record
         );
@@ -60,6 +61,10 @@ public class SCD2Implementation_Multiple_KeyColumns {
         System.out.println("joined");
         joined.show();
 
+        Dataset<Row> droppedDataset = masterTable.join(deltaTable, joinCondition, "left_anti");
+        System.out.println("Dropped");
+        droppedDataset.show();
+
         // Identify changed records
         Column changeCondition = Arrays.stream(deltaTable.schema().fieldNames())
                 .filter(col -> !keyColumns.contains(col) && !ignoreColumns.contains(col))
@@ -69,12 +74,10 @@ public class SCD2Implementation_Multiple_KeyColumns {
         Dataset<Row> changedRecords = joined.filter(changeCondition);
         System.out.println("changedRecords");
         changedRecords.show();
-
         //Select updated records from delta file
         Dataset<Row> updatedActive = changedRecords.select(deltaTable.col("*")) ;
         System.out.println("updatedActive");
         updatedActive.show();
-
         //Select updated records which need to be set inactive from master file
         System.out.println("expiredRecords");
         Dataset<Row> expiredRecords  = changedRecords.select(masterTable.col("*")) ;

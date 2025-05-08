@@ -1,0 +1,11 @@
+---
+databaseChangeLog:
+- changeSet:
+    id: "1"
+    author: "your-name"
+    label: "running from sql file"
+    changes:
+    - sqlFile:
+        stripComments: "true"
+        path: "data/person.sql"
+        relativeToChangelogFile: "true"

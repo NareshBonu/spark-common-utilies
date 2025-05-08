@@ -10,6 +10,8 @@ import java.util.Map;
 
 
 public class EnvironmentConfig {
+
+
     private Map<String, EnvironmentDetails> environments = new HashMap<>();
 
     @JsonAnySetter
