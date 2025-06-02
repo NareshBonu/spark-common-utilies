@@ -3,7 +3,7 @@ import java.util.stream.Collectors;
 
 public class CollectionFramework {
 
-    public static void main (String args[]){
+    public static void main (String[] args){
 
         Integer[] array= new Integer[]{1,2,1, 3,4,5,3,2,5,3};
 
