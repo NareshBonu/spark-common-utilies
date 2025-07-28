@@ -36,7 +36,7 @@ import java.util.List;
 
 @Slf4j
 public class SparkCommons {
-    private  static Logger logger = Logger.getLogger(SparkCommons.class);
+    private  static final Logger logger = Logger.getLogger(SparkCommons.class);
 
     public static SparkSession createSparkSession(String appName,String master){
         Logger.getLogger("org.apache").setLevel(Level.OFF);
@@ -143,7 +143,7 @@ public class SparkCommons {
         return fieldMetadata;
     }
 
-    public static void main(String args[]) throws IOException, GKCStoreException {
+    public static void main(String[] args) throws IOException, GKCStoreException {
 
         String lookupFile = SparkCommons.class.getClassLoader().getResource("Lookup.dat").getFile();
         SparkSession sparkSession = createSparkSession("","");
@@ -214,7 +214,7 @@ public class SparkCommons {
 
     public static String getCurrentDate(String format){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        String currentDate = simpleDateFormat.format(new Date().getTime());;
+        String currentDate = simpleDateFormat.format(new Date().getTime());
         return currentDate;
     }   
 

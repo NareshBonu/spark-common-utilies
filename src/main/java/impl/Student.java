@@ -17,7 +17,7 @@ public class Student {
     private static Dataset<Row> inputDataset ;
     private static SparkSession sparkSession;
 
-    public static void main(String args[]){
+    public static void main(String[] args){
 
         Logger.getLogger("org.apache").setLevel(Level.OFF);
 
@@ -162,7 +162,7 @@ private static StructType buildUsersSchema(){
         return  structType;
 }
 
-private static Dataset<Row> deleteColumns(Dataset<Row> inputDataset,String columnList[]){
+private static Dataset<Row> deleteColumns(Dataset<Row> inputDataset, String[] columnList){
 
         List<String> columnList1 = Arrays.asList("SNO","DELETE_COLUMN1","DELETE_COLUMN2","DELETE_COLUMN3","DELETE_COLUMN4",
                 "DELETE_COLUMN5","DELETE_COLUMN6","DELETE_COLUMN7");
@@ -171,7 +171,7 @@ private static Dataset<Row> deleteColumns(Dataset<Row> inputDataset,String colum
                  "DELETE_COLUMN4","DELETE_COLUMN5","DELETE_COLUMN6","DELETE_COLUMN7");
    }
 
-   private static Dataset<Row> removeNullData(Dataset<Row> inputDataset,String columnList[]){
+   private static Dataset<Row> removeNullData(Dataset<Row> inputDataset, String[] columnList){
 
         return inputDataset.filter(inputDataset.col("HAS_SSN").isNotNull()
                 .and(inputDataset.col("EMPLOYEE_STATUS").isNotNull()));

@@ -12,14 +12,14 @@ import java.io.IOException;
 
 public class EnrichProductRef {
 
-    private  static Logger logger = Logger.getLogger(EnrichProductRef.class);
+    private  static final Logger logger = Logger.getLogger(EnrichProductRef.class);
     private static SparkSession sparkSession;
     private static Dataset<Row> validCurrentDayData;
     private static Dataset<Row> productRef;
     private static Dataset<Row>  saleAmountEnrichment;
-    private static String ingDay ="TODAY";
+    private static final String ingDay ="TODAY";
 
-    public static void main(String args[])   throws IOException, GKCStoreException {
+    public static void main(String[] args)   throws IOException, GKCStoreException {
 
 
         String runDay = ingDay.equalsIgnoreCase("TODAY") ? SparkCommons.getCurrentDate("ddMMyyyy") : SparkCommons.getNextDayToCurrentDate("ddMMyyyy");

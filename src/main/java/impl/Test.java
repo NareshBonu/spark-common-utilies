@@ -29,7 +29,7 @@ public class Test {
 
     private static SparkSession sparkSession;
 
-    public static void main(String args[]) throws IOException, GKCStoreException {
+    public static void main(String[] args) throws IOException, GKCStoreException {
 
 
         String samplePath = "/Users/nareshbonu/Documents/Naresh/SPARK/Data/File2.txt";

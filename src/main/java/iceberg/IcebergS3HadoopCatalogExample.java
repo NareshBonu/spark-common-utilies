@@ -59,7 +59,7 @@ public class IcebergS3HadoopCatalogExample {
                             "USING iceberg " +
                             "PARTITIONED BY (days(created_at)) " +
                             "LOCATION '%s'", tableLocation));
-            System.out.println("Iceberg table 'my_sample_table' created successfully at: " + tableLocation);
+            System.out.println("Iceberg table ' ' created successfully at: " + tableLocation);
 
             System.out.println("\n--- Loading Data into Table ---");
             // Create some sample data

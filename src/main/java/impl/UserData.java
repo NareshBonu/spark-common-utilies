@@ -23,7 +23,7 @@ public class UserData {
     public static Dataset<Row> inputDataset;
     public static Dataset<Row> outputDataset;
 
-    public static void main (String args[]) throws IOException {
+    public static void main (String[] args) throws IOException {
 
         String josnString  = FileUtils.readFileToString(new File("./src/main/resource/schema.json"));
         StructType structType = (StructType) StructType.fromJson(josnString);

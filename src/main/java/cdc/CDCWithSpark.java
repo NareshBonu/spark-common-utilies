@@ -36,7 +36,7 @@ public class CDCWithSpark {
     private static final String DELTA_FILE ="/Users/nareshbonu/Documents/Naresh/SPARK/Data/CDC_DATA/DAY1";
     private static final String CDC_OUTPUT ="/Users/nareshbonu/Documents/Naresh/SPARK/Data/CDC_DATA/CDC_OUTPUT";
 
-    public static void main(String args[]) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException {
 
         Date date = new SimpleDateFormat("yyyyMMdd").parse("20220918");
         String year = new SimpleDateFormat("yyyy").format(date);

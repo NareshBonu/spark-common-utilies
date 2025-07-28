@@ -14,7 +14,7 @@ public class SparkUDFExample {
     private static final org.apache.log4j.Logger logger= Logger.getLogger(SparkUDFExample.class);
     private static SparkSession sparkSession;
     private static Dataset<Row> inputDataset;
-    public static void main(String args[]){
+    public static void main(String[] args){
 
         String custFile="/Users/nareshbonu/Documents/Naresh/SPARK/Data/Cust_data.txt";
 

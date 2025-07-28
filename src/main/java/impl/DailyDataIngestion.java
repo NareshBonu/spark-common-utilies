@@ -14,14 +14,14 @@ import java.util.List;
 
 
 public class DailyDataIngestion {
-    private  static Logger logger = Logger.getLogger(DailyDataIngestion.class);
+    private  static final Logger logger = Logger.getLogger(DailyDataIngestion.class);
     private static SparkSession sparkSession;
     private static Dataset<Row> inputDataset;
     private static Dataset<Row> previousHoldDataset;
     private static Dataset<Row> updatedDataset;
     private static Dataset<Row> nonUpdatedDataset;
     private static String ingDay ;
-    public static void main(String args[])   throws IOException, GKCStoreException {
+    public static void main(String[] args)   throws IOException, GKCStoreException {
 
         List<String> validInput = Arrays.asList("TODAY", "TOMORROW");
 
