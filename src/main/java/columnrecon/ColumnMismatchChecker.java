@@ -25,8 +25,10 @@ public class ColumnMismatchChecker {
                 RowFactory.create("A", "X", "P", 100, "NY", "Y"),
                 RowFactory.create("B", "Y", "Q", 200, "LA", "Y"),
                 RowFactory.create("C", "Z", "R", 300, "CH", "Y"),
-                RowFactory.create("D", "W", "S", 400, "SF", "N"), // Inactive
-                RowFactory.create("E", "V", "T", 500, "DL", "Y")
+                RowFactory.create("D", "W", "S", 400, "SF", "N"),
+                RowFactory.create("F", "U", "V", 400, "TXX", "Y"),
+                RowFactory.create("L", "M", "N", 700, "CH", "Y"),
+                RowFactory.create("E", "V", "T", 500, "DL", "N") // Inactive
         );
         StructType schema1 = DataTypes.createStructType(new org.apache.spark.sql.types.StructField[]{
                 DataTypes.createStructField("key_col1", DataTypes.StringType, true),
@@ -42,7 +44,8 @@ public class ColumnMismatchChecker {
                 RowFactory.create("A", "X", "P", 100, "NY", "Y"),
                 RowFactory.create("B", "Y", "Q", 200, "LAX", "Y"), // Mismatch in col_data2
                 RowFactory.create("C", "Z", "R", 350, "CH", "Y"), // Mismatch in col_data1
-                RowFactory.create("F", "U", "V", 600, "TX", "Y"), // New record in df2
+                RowFactory.create("F", "U", "V", 400, "TX", "Y"), // New record in df2
+                RowFactory.create("X", "Y", "Z", 600, "TX", "Y"), // New record in df2
                 RowFactory.create("E", "V", "T", 500, "DL", "N")   // Inactive in df2
         );
         StructType schema2 = DataTypes.createStructType(new org.apache.spark.sql.types.StructField[]{
@@ -55,6 +58,8 @@ public class ColumnMismatchChecker {
         });
         Dataset<Row> df2 = spark.createDataFrame(data2, schema2);
 
+
+
         // Define key columns and columns to compare
         List<String> keyColumns = Arrays.asList("key_col1", "key_col2", "key_col3");
         List<String> comparisonColumns = Arrays.asList("col_data1", "col_data2");
@@ -63,11 +68,17 @@ public class ColumnMismatchChecker {
         Dataset<Row> df1Active = df1.filter(col("active_in").equalTo("Y"));
         Dataset<Row> df2Active = df2.filter(col("active_in").equalTo("Y"));
 
+
+
+
         // Create the join condition with multiple key columns, using aliased columns
         Column joinCondition = functions.lit(true);
         for (String keyCol : keyColumns) {
             joinCondition = joinCondition.and(df1Active.col(keyCol).equalTo(df2Active.col(keyCol)));
         }
+
+        df1Active.join(df2Active,joinCondition,"left_anti").show();
+        df2Active.join(df1Active,joinCondition,"left_anti").show();
 
         // Perform the full outer join
         Dataset<Row> joinedDf = df1Active.alias("t1").join(df2Active.alias("t2"), joinCondition, JoinType.Outer.toString());
