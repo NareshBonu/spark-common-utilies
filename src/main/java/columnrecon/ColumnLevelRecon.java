@@ -1,4 +1,8 @@
+package columnrecon;
+
+import com.amazonaws.services.glue.model.JoinType;
 import org.apache.spark.sql.*;
+import org.apache.spark.sql.catalyst.plans.JoinType$;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
@@ -36,7 +40,8 @@ public class ColumnLevelRecon {
                 RowFactory.create(1, "A", "Alice", 28, "Engineer"),
                 RowFactory.create(2, "B", "Bob", 37, "Doctor"), // Mismatched Age
                 RowFactory.create(3, "C", "Charlie", 22, "Student"),
-                RowFactory.create(4, "D", "Dave", 45, "Analyst") // Mismatched Name & Occupation
+                RowFactory.create(4, "D", "Dave", 45, "Analyst") ,
+                RowFactory.create(5, "e", "Naresh", 40, "Analyst")// Mismatched Name & Occupation
         );
         StructType schema2 = new StructType(new StructField[]{
                 new StructField("id1", DataTypes.IntegerType, false, Metadata.empty()),
@@ -65,7 +70,7 @@ public class ColumnLevelRecon {
         }
 
         // Perform the full outer join
-        Dataset<Row> joinedDf = df1Aliased.join(df2Aliased, joinCondition, "fullouter");
+        Dataset<Row> joinedDf = df1Aliased.join(df2Aliased, joinCondition, JoinType.Outer.toString());
 
         // Dynamically compare columns and create a new column for mismatches
         // When selecting key columns, use one of the aliased DataFrames (e.g., df1Aliased)
